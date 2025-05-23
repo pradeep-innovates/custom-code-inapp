@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:paddingBottom="16dp">
+
+    <!-- Card Container -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/detailCard"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        android:backgroundTint="@android:color/transparent"
+        android:layout_margin="8dp"> <!-- Add margin for spacing -->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp"
+            android:background="@drawable/clickable_border_background">
+
+            <TextView
+                android:id="@+id/detailTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Card Title"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#111111"
+                android:gravity="center" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Floating Play Button (half-outside) -->
+    <ImageButton
+        android:id="@+id/playButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="-15dp"
+        android:background="@drawable/circle_background"
+        android:src="@android:drawable/ic_media_play"
+        app:tint="#FFFFFF"
+        android:contentDescription="Play"
+        android:scaleType="centerInside"
+        android:elevation="2dp" />
+
+</FrameLayout>

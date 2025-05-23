@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#FFFFFF</color>         <!-- Soft Coral -->
+    <color name="colorPrimaryVariant">#F8D1B0</color>  <!-- Peachy Beige -->
+    <color name="colorSecondary">#A5D8B9</color>       <!-- Pastel Mint -->
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorSurface">#F5F5F5</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorOnBackground">#000000</color>
+    <color name="colorOnSurface">#000000</color>
+    <color name="buttonBackground">#FF9E5E</color> <!-- Your preferred orange shade -->
+    <color name="buttonText">#FFFFFF</color>       <!-- Button text color -->
+    <color name="gray">#B0B0B0</color> <!-- Gray color for clicked state -->
+    <color name="originalColor">#FFFFFF</color>
+
+</resources>

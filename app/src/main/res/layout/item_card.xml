@@ -1,0 +1,68 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@android:color/transparent"> <!-- Let child handle background -->
+
+        <!-- Inner FrameLayout to apply border drawable -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_background"
+            android:padding="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:gravity="center_horizontal"
+                android:background="@android:color/transparent">
+
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/titleText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Strawberry Cobbler Drinks"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#111111" />
+
+                <!-- Description -->
+                <TextView
+                    android:id="@+id/descriptionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rich mocha-flavored sauce meets up with chocolate chips, milk and ice."
+                    android:textSize="14sp"
+                    android:textColor="#666666"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="4dp" />
+
+                <!-- Button -->
+                <Button
+                    android:id="@+id/actionButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Get it"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:backgroundTint="#FF9E5E"
+                    android:layout_marginTop="16dp" />
+            </LinearLayout>
+        </FrameLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

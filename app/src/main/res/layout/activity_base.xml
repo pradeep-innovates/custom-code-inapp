@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BaseActivity">
+
+    <!-- Container to inject child activity layout -->
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"  />
+
+    <!-- Custom Bottom Navigation Bar -->
+    <LinearLayout
+        android:id="@+id/custom_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:background="#FFFFFF"
+        android:weightSum="3"
+        android:elevation="4dp">
+
+        <LinearLayout
+            android:id="@+id/tab_home"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp">
+            <ImageView
+                android:id="@+id/icon_home"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/nav_home" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_search"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp">
+            <ImageView
+                android:id="@+id/icon_search"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/nav_activities" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_profile"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp">
+            <ImageView
+                android:id="@+id/icon_profile"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/nav_profile" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

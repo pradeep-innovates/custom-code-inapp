@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebView Button Click</title>
+    <script type="text/javascript">
+<!--        function loadUrl() {-->
+<!--            var midUrl = Android.getMidUrl(); // Get the URL from Android-->
+<!--            document.getElementById("midLink").href = midUrl;-->
+<!--            document.getElementById("midButton").innerText = "Open: " + midUrl;-->
+<!--            document.getElementById("urlText").innerText = "URL: " + midUrl; // Display URL in UI-->
+<!--        }-->
+
+<!--        function openUrl() {-->
+<!--            Android.openMidUrl(); // Open the URL in an external browser-->
+<!--        }-->
+
+         // ➕ New JS function to send a basic event
+        function sendBasicCleverTapEvent() {
+            Android.sendCustomEvent("WebButtonClicked");
+        }
+
+        // ➕ New JS function to send an event with properties
+        function sendCleverTapEventWithProps() {
+            var imageUrl = "https://example.com/image.png";
+            var position = 1;
+            Android.sendCustomEventWithProps("ImageBannerClick", imageUrl, position);
+        }
+    </script>
+</head>
+<body onload="loadUrl()">
+<h2>Click the Button to Open the URL</h2>
+<p id="urlText" style="font-size: 18px; color: blue;"></p> <!-- Display URL -->
+<button id="midButton" onclick="openUrl()">Open URL</button>
+<br><br>
+<a id="midLink" href="#" target="_blank">Go to URL</a>
+
+<!-- ➕ Additional buttons for CleverTap testing -->
+<h3>Track Events in CleverTap</h3>
+<button onclick="sendBasicCleverTapEvent()">Send Basic Event</button><br/><br/>
+<button onclick="sendCleverTapEventWithProps()">Send Event With Props</button>
+
+</body>
+</html>

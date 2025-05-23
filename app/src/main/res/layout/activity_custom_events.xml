@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CustomEvents">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/eventToolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryVariant"
+        android:title="Details"
+        android:titleTextColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ScrollView with Buttons -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/eventToolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:gravity="center_horizontal">
+
+            <Button android:id="@+id/videoActivity" android:layout_width="match_parent" android:layout_height="56dp" android:text="Video Activity" android:layout_marginTop="16dp" android:layout_marginStart="32dp" android:layout_marginEnd="32dp"/>
+            <Button android:id="@+id/productViewed" android:layout_width="match_parent" android:layout_height="56dp" android:text="Product Viewed" android:layout_marginTop="16dp" android:layout_marginStart="32dp" android:layout_marginEnd="32dp"/>
+            <Button android:id="@+id/removeFcmToken" android:layout_width="match_parent" android:layout_height="56dp" android:text="Remove FCM Token" android:layout_marginTop="16dp" android:layout_marginStart="32dp" android:layout_marginEnd="32dp"/>
+            <Button android:id="@+id/addFcmToken" android:layout_width="match_parent" android:layout_height="56dp" android:text="Add FCM Token" android:layout_marginTop="16dp" android:layout_marginStart="32dp" android:layout_marginEnd="32dp"/>
+            <Button android:id="@+id/bottom_inapp" android:layout_width="match_parent" android:layout_height="56dp" android:text="Bottom_InApp" android:layout_marginTop="16dp" android:layout_marginStart="32dp" android:layout_marginEnd="32dp"/>
+            <Button android:id="@+id/progress_alert" android:layout_width="match_parent" android:layout_height="56dp" android:text="Progress_Alert" android:layout_marginTop="16dp" android:layout_marginStart="32dp" android:layout_marginEnd="32dp"/>
+            <Button android:id="@+id/floating_image" android:layout_width="match_parent" android:layout_height="56dp" android:text="Floating_Image" android:layout_marginTop="16dp" android:layout_marginStart="32dp" android:layout_marginEnd="32dp"/>
+            <Button android:id="@+id/floating_gif" android:layout_width="match_parent" android:layout_height="56dp" android:text="Floating_GIF" android:layout_marginTop="16dp" android:layout_marginStart="32dp" android:layout_marginEnd="32dp"/>
+            <Button android:id="@+id/ott_landscape" android:layout_width="match_parent" android:layout_height="56dp" android:text="OTT_Landscape" android:layout_marginTop="16dp" android:layout_marginStart="32dp" android:layout_marginEnd="32dp"/>
+            <Button android:id="@+id/ecom_portrait" android:layout_width="match_parent" android:layout_height="56dp" android:text="ECom_Portrait" android:layout_marginTop="16dp" android:layout_marginStart="32dp" android:layout_marginEnd="32dp"/>
+            <Button android:id="@+id/charged" android:layout_width="match_parent" android:layout_height="56dp" android:text="Charged" android:layout_marginTop="16dp" android:layout_marginStart="32dp" android:layout_marginEnd="32dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
