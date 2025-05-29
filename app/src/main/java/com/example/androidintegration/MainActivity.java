@@ -191,6 +191,15 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
         ));
 
         cardItemList.add(new CardItem(
+                "Push Templates",
+                "Different Templates to show Push Notification",
+                "See Documentation",
+                "https://www.wikipedia.org",
+                "https://developer.clevertap.com/docs/push-templates-android",
+                DetailListActivity.class  // Pass the activity class to be opened on card click
+        ));
+
+        cardItemList.add(new CardItem(
                 "Custom App Inbox",
                 "Styled Inbox rendered by the app, with message content fetched from CleverTap.",
                 "See Documentation",
@@ -206,15 +215,6 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
                 "https://www.openai.com",
                 "https://developer.clevertap.com/docs/events#custom-events",
                 CustomEvents.class  // Pass the activity class to be opened on card click
-        ));
-
-        cardItemList.add(new CardItem(
-                "Push Templates",
-                "Different Templates to show Push Notification",
-                "See Documentation",
-                "https://www.wikipedia.org",
-                "https://developer.clevertap.com/docs/push-templates-android",
-                DetailListActivity.class  // Pass the activity class to be opened on card click
         ));
 
         cardItemList.add(new CardItem(
