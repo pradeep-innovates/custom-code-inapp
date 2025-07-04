@@ -15,5 +15,6 @@
     <color name="buttonText">#FFFFFF</color>       <!-- Button text color -->
     <color name="gray">#B0B0B0</color> <!-- Gray color for clicked state -->
     <color name="originalColor">#FFFFFF</color>
+    <color name="spotlightBackground">#BC000000</color>
 
 </resources>
