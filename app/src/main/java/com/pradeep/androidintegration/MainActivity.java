@@ -171,9 +171,6 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
         cleverTapDefaultInstance.setLocation(location);
 
 
-
-
-
         // Push Primer
 //        new Handler(Looper.getMainLooper()).postDelayed(() -> {
 //            JSONObject jsonObject = CTLocalInApp.builder()
@@ -191,12 +188,6 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
 //        }, 500);
 
 
-
-
-//        RequestOptions requestOptions = new RequestOptions()
-//                .transform(new ColorFilterTransformation(Color.WHITE)); // White tint
-
-//        cleverTapDefaultInstance.pushEvent("Mood_Template");
 
         // Inside onCreate method
         ImageView profileIcon = findViewById(R.id.profileIcon);
