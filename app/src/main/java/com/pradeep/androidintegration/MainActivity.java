@@ -45,7 +45,6 @@ import com.clevertap.android.sdk.CleverTapAPI;
 import com.clevertap.android.sdk.InAppNotificationButtonListener;
 import com.clevertap.android.sdk.displayunits.DisplayUnitListener;
 import com.clevertap.android.sdk.displayunits.model.CleverTapDisplayUnit;
-import com.clevertap.android.sdk.displayunits.model.CleverTapDisplayUnitContent;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pradeep.androidintegration.spotlights.SpotlightHelper;
 
@@ -315,15 +314,7 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
         recyclerView.scheduleLayoutAnimation();
 
 
-
-
-//        Button fetchDisplayUnitsButton = findViewById(R.id.fetchDisplayUnitsButton);
-//        fetchDisplayUnitsButton.setOnClickListener(view -> {
-//            // Trigger fetching display units manually
-//            fetchDisplayUnitsAndOpenNewActivity(cleverTapDefaultInstance);
-//        });
-//
-//        // Get CleverTap ID
+//        Get CleverTap ID
 //        Button getCleverTapID = findViewById(R.id.getCleverTapID);
 //        getCleverTapID.setOnClickListener(view -> {
 //            String cleverTapID = cleverTapDefaultInstance.getCleverTapID();
@@ -341,13 +332,7 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
 //            builder.show();
 //        });
 
-
         setupCustomBottomBar("home"); // or "search", "profile" accordingly
-
-//        cleverTapDefaultInstance.pushEvent("custom_htinapp");
-
-
-
 
 //        new Handler(Looper.getMainLooper()).postDelayed(() -> {
 //        }, 2000);
@@ -368,58 +353,6 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
             }
         }
     }
-
-    private void fetchDisplayUnitsAndOpenNewActivity(CleverTapAPI cleverTapDefaultInstance) {
-        Log.d("CleverTap", "fetchDisplayUnitsAndOpenNewActivity: inside");
-        ArrayList<CleverTapDisplayUnit> displayUnits = cleverTapDefaultInstance.getAllDisplayUnits();
-        ArrayList<String> imageUrls = new ArrayList<>();
-
-        if (displayUnits != null && !displayUnits.isEmpty()) {
-            for (CleverTapDisplayUnit unit : displayUnits) {
-                for (CleverTapDisplayUnitContent content : unit.getContents()) {
-                    String imageUrl = content.getMedia();
-                    if (imageUrl != null) {
-                        Log.d("CleverTap", "Image URL: " + imageUrl);
-                        imageUrls.add(imageUrl);
-                    }
-                }
-            }
-
-            // Open new activity and pass the imageUrls
-            Intent intent = new Intent(MainActivity.this, DisplayUnitsActivity.class);
-            intent.putStringArrayListExtra("DISPLAY_UNITS", imageUrls);
-            startActivity(intent);
-        } else {
-            Log.d("CleverTap", "No Display Units available.");
-        }
-    }
-
-//    private void fetchDisplayUnits() {
-//        ArrayList<CleverTapDisplayUnit> displayUnits = cleverTapDefaultInstance.getAllDisplayUnits();
-//        if (displayUnits != null && !displayUnits.isEmpty()) {
-//            // Handle display units (e.g., update carousel)
-//            Log.d("CleverTap", "Fetched Display Units: " + displayUnits.toString());
-//            updateCarousel(displayUnits);  // Example: update your UI with the new display units
-//        } else {
-//            Log.d("CleverTap", "No Display Units available.");
-//        }
-//    }
-
-
-//    private void updateCarousel(ArrayList<CleverTapDisplayUnit> displayUnits) {
-//        List<String> imageUrls = new ArrayList<>();
-//        for (CleverTapDisplayUnit unit : displayUnits) {
-//            for (CleverTapDisplayUnitContent content : unit.getContents()) {
-//                String imageUrl = content.getMedia();
-//                if (imageUrl != null && !imageUrl.isEmpty()) {
-//                    imageUrls.add(imageUrl);
-//                }
-//            }
-//        }
-//        // Set the new adapter to your ViewPager
-//        ImageCarouselAdapter adapter = new ImageCarouselAdapter(this, imageUrls);
-//        viewPager.setAdapter(adapter);
-//    }
 
 
     // Foreground/Background
@@ -442,20 +375,13 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
     protected void onStart() {
         super.onStart();
 //        Toast.makeText(this, "onStart Activity Called", Toast.LENGTH_SHORT).show();
-
-//        cleverTapDefaultInstance.setCTPushNotificationListener(this);
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 //        Toast.makeText(this, "onResume Activity Called", Toast.LENGTH_SHORT).show();
-//        LocalBroadcastManager.getInstance(this).registerReceiver(unreadCountReceiver, new IntentFilter("UPDATE_UNREAD_COUNT"));
-
-//        updateUnreadCount();
         setupCustomBottomBar("home"); // or "search", "profile" accordingly
-
     }
 
 
@@ -464,34 +390,7 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
     protected void onPause() {
         super.onPause();
 //        Toast.makeText(this, "onPause Activity Called", Toast.LENGTH_SHORT).show();
-//        LocalBroadcastManager.getInstance(this).unregisterReceiver(unreadCountReceiver);
-
     }
-
-//    private void updateUnreadCount() {
-//        if (cleverTapDefaultInstance != null) {
-//            Log.d("CleverTap", "updateUnreadCount: called");
-//
-//            int unreadCount = cleverTapDefaultInstance.getInboxMessageUnreadCount();
-//            Button customAppInbox = findViewById(R.id.customAppInbox);
-//
-//            if (unreadCount > 0) {
-//                customAppInbox.setText("Custom App Inbox (" + unreadCount + ")");
-//            } else {
-//                customAppInbox.setText("Custom App Inbox"); // Hide count if 0
-//            }
-//        }
-//    }
-
-//    private BroadcastReceiver unreadCountReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            Log.d("CleverTap", "onReceive: broadcast received");
-//            if ("UPDATE_UNREAD_COUNT".equals(intent.getAction())) {
-//                updateUnreadCount();
-//            }
-//        }
-//    };
 
     @Override
     protected void onStop() {
@@ -525,28 +424,6 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
     @Override
     public void inboxDidInitialize() {
         Log.d("CleverTap", "inboxDidInitialize: called");
-//        Log.d("CleverTap", "messageCount: " + cleverTapDefaultInstance.getInboxMessageCount());
-
-
-        int unreadCount = cleverTapDefaultInstance.getInboxMessageUnreadCount();
-
-//        Button yourAppInbox = findViewById(R.id.cleverTapInboxButton);
-//        if (unreadCount > 0) {
-//            yourAppInbox.setText("CleverTap App Inbox (" + unreadCount + ")");
-//            Log.d("CleverTap", "CleverTap App Inbox Count: " + unreadCount);
-//        } else {
-//            yourAppInbox.setText("CleverTap App Inbox");
-//        }
-
-//        Button customAppInbox = findViewById(R.id.customAppInbox);
-//        if (unreadCount > 0) {
-//            customAppInbox.setText("Custom Inbox (" + unreadCount + ")");
-//            Log.d("CleverTap", "Custom App Inbox Count: " + unreadCount);
-//        } else {
-//            customAppInbox.setText("Custom Inbox");
-//        }
-
-//        Button cleverTapInboxButton = findViewById(R.id.cleverTapInboxButton);
         notificationIcon.setOnClickListener(view -> {
             Toast.makeText(this, "Notification Icon clicked!", Toast.LENGTH_SHORT).show();
             cleverTapDefaultInstance.showAppInbox();//Opens Activity with default style configs
@@ -559,148 +436,7 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
         Log.d("CleverTap", "inboxMessagesDidUpdate: called");
         int unreadCount = cleverTapDefaultInstance.getInboxMessageUnreadCount();
 
-//        Button yourAppInbox = findViewById(R.id.cleverTapInboxButton);
-//        if (unreadCount > 0) {
-//            yourAppInbox.setText("CleverTap App Inbox (" + unreadCount + ")");
-//            Log.d("CleverTap", "CleverTap App Inbox Count: " + unreadCount);
-//        } else {
-//            yourAppInbox.setText("CleverTap App Inbox");
-//        }
     }
-
-
-//    @Override
-//    public void onDisplayUnitsLoaded(ArrayList<CleverTapDisplayUnit> displayUnits) {
-//        Log.d("CleverTap", "Inside onDisplayUnitsLoaded");
-//        cleverTapDefaultInstance.pushEvent("Native Display is working");
-//
-//        if (displayUnits != null && !displayUnits.isEmpty()) {
-//            List<String> imageUrls = new ArrayList<>();
-//            List<String> topImageUrls = new ArrayList<>();
-//            List<String> unitIds = new ArrayList<>(); // Store unit IDs
-//            List<String> actionUrls = new ArrayList<>(); // Store action URLs
-//            List<String> titles = new ArrayList<>();
-//            List<String> messages = new ArrayList<>();
-//
-//            for (CleverTapDisplayUnit unit : displayUnits) {
-//                Log.d("CleverTap", "Full CleverTap Response: " + unit.toString()); // Log full response
-//
-//                cleverTapDefaultInstance.pushDisplayUnitViewedEventForID(unit.getUnitID());
-//
-//                // Safely get the position value
-//                String position = null;
-//                if (unit.getCustomExtras() != null) { // Null check
-//                    position = unit.getCustomExtras().get("position");
-//                }
-//
-//                for (CleverTapDisplayUnitContent content : unit.getContents()) {
-//                    String title = content.getTitle();
-//                    String message = content.getMessage();
-//                    String imageUrl = content.getMedia();
-//                    String actionUrl = content.getActionUrl(); // Get the action URL
-//
-//
-//                    if (imageUrl != null && !imageUrl.isEmpty()) {
-//                        Log.d("CleverTap", "Image URL: " + imageUrl);
-//                        Log.d("CleverTap", "Title : " + title);
-//                        Log.d("CleverTap", "Message : " + message);
-//
-//
-//                        if ("top".equalsIgnoreCase(position)) {
-//                            topImageUrls.add(imageUrl); // Separate logic for "top"
-//                        } else {
-//                            imageUrls.add(imageUrl); // Default logic
-//                        }
-//                        unitIds.add(unit.getUnitID()); // Add unit ID to list
-//                        actionUrls.add(actionUrl); // Add the action URL to the list
-//
-//                        // Add title and message with null checks
-//                        titles.add(title);
-//                        messages.add(message);
-//
-//
-//                    } else {
-//                        Log.e("CleverTap", "Image URL is empty or null");
-//                    }
-//                }
-//            }
-//
-//            // Handling UI logic based on position
-//            if (!topImageUrls.isEmpty()) {
-////                setupTopBanner(topImageUrls, unitIds, actionUrls, titles, messages); // Implement this method for 'top' images
-//            } else if (!imageUrls.isEmpty()) {
-//                setupImageCarousel(imageUrls, unitIds, actionUrls, titles, messages); // Implement this method for default images
-//            }
-//        }
-//    }
-
-    // Method to set up the top banner
-//    private void setupTopBanner(List<String> topImageUrls, List<String> unitIds, List<String> actionUrls, List<String> titles, List<String> messages) {
-//        ViewPager2 topBannerViewPager = findViewById(R.id.native_image_carousel2);
-//        ImageCarouselAdapter adapter = new ImageCarouselAdapter(this, topImageUrls, unitIds, actionUrls, titles, messages);
-//        topBannerViewPager.setAdapter(adapter);
-//        setupAutoScroll(topBannerViewPager, topImageUrls.size());
-//    }
-
-//    public void onDisplayUnitsLoaded(ArrayList<CleverTapDisplayUnit> displayUnits) {
-//        Log.d("CleverTap", "Inside new onDisplayUnitsLoaded");
-//        cleverTapDefaultInstance.pushEvent("Native Display is working");
-//
-//        TextView welcomeTitle = findViewById(R.id.welcomeTitle);
-//
-//
-//        if (displayUnits != null && !displayUnits.isEmpty()) {
-//            List<String> imageUrls = new ArrayList<>();
-//            List<String> unitIds = new ArrayList<>();
-//            List<String> actionUrls = new ArrayList<>();
-////            List<String> titles = new ArrayList<>();
-////            List<String> messages = new ArrayList<>();
-//            String username = ""; // Default username
-//
-//            for (CleverTapDisplayUnit unit : displayUnits) {
-//                Log.d("CleverTap", "Full CleverTap Response: " + unit.toString());
-//
-//                cleverTapDefaultInstance.pushDisplayUnitViewedEventForID(unit.getUnitID());
-//
-//                Map<String, String> customKV = unit.getCustomExtras();
-//                if (customKV != null) {
-//                    // Get username if present
-//                    if (customKV.containsKey("Username")) {
-//                        username = customKV.get("Username");
-//                        welcomeTitle.setText("Welcome, " + username);
-//                        Log.d("CleverTap", "Username: " + username);
-//                    }
-//
-//                    // Extract multiple images (Image1, Image2, Image3, etc.)
-//                    for (int i = 1; i <= 5; i++) {
-//                        String imageKey = "Image" + i;
-//                        String imageUrl = customKV.get(imageKey);
-//                        if (imageUrl != null && !imageUrl.isEmpty()) {
-//                            imageUrls.add(imageUrl);
-//                            unitIds.add(unit.getUnitID());
-//
-//                            // Optional fallback title/message per image
-////                            titles.add(customKV.getOrDefault("Title", "Title"));
-////                            messages.add(customKV.getOrDefault("Message", "Message"));
-//                            actionUrls.add(customKV.getOrDefault("ActionUrl", "")); // Optional
-//                            Log.d("CleverTap", "Fetched from custom_kv: " + imageUrl);
-//                        }
-//                    }
-//                } else {
-//                    Log.e("CleverTap", "Custom KV is null");
-//                }
-//            }
-//
-//            ViewPager2 carouselViewPager = findViewById(R.id.carouselViewPager);
-//
-//            // Display carousel
-//            if (!imageUrls.isEmpty()) {
-////                setupImageCarousel(imageUrls, unitIds, actionUrls, titles, messages);
-//                carouselViewPager.setVisibility(View.VISIBLE);
-//                setupImageCarousel(imageUrls, unitIds, actionUrls);
-//            }
-//        }
-//    }
 
     public void onDisplayUnitsLoaded(ArrayList<CleverTapDisplayUnit> displayUnits) {
         Log.d("CleverTap", "Inside new onDisplayUnitsLoaded");
@@ -839,23 +575,6 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
         textColumn.setLayoutParams(textColumnParams);
         textColumn.setGravity(Gravity.CENTER);
 
-//        TextView textView = new TextView(activity);
-//        textView.setText(text);
-//        textView.setTextColor(Color.WHITE);
-//        textView.setTextSize(13);
-//        textView.setTypeface(null, Typeface.BOLD);
-//
-//        textColumn.addView(textView);
-
-//
-//        TextView timeView = new TextView(activity);
-//        timeView.setText(time);
-//        timeView.setTextColor(Color.WHITE);
-//        timeView.setTextSize(13);
-//        timeView.setTypeface(null, Typeface.BOLD);
-
-//        textColumn.addView(timeView);
-
         topRow.addView(imageView);
 
 
@@ -891,7 +610,6 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
 
         // Add topRow and countdown to container
         container.addView(topRow);
-//        container.addView(countdownView);
 
         topRow.addView(textColumn);
 
@@ -967,15 +685,6 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
                             .setDuration(200)
                             .start();
 
-//                    finalCountdownView.setVisibility(View.VISIBLE);
-//                    finalCountdownView.setAlpha(0f);
-//                    finalCountdownView.setTranslationX(finalCountdownView.getWidth());
-//                    finalCountdownView.animate()
-//                            .translationX(0)
-//                            .alpha(1f)
-//                            .setDuration(200)
-//                            .start();
-
                     isTextVisible = true;
 
                     container.setPadding(16, 24, 30, 24);
@@ -991,13 +700,6 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
                             .setDuration(200)
                             .withEndAction(() -> textColumn.setVisibility(View.GONE))
                             .start();
-
-//                    finalCountdownView.animate()
-//                            .translationX(finalCountdownView.getWidth())
-//                            .alpha(0f)
-//                            .setDuration(200)
-//                            .withEndAction(() -> finalCountdownView.setVisibility(View.GONE))
-//                            .start();
 
                     isTextVisible = false;
 
