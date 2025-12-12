@@ -9,10 +9,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
@@ -59,6 +61,14 @@ public class HomeScreen extends BaseActivity implements DisplayUnitListener {
         setupCustomBottomBar("search");
 
 //        clevertapDefaultInstance.pushEvent("native_bot");
+
+        Button ImageActivity = findViewById(R.id.button4);
+
+        ImageActivity.setOnClickListener(view -> {
+            Toast.makeText(this, "Profile Icon clicked!", Toast.LENGTH_SHORT).show();
+            Intent imageIntent = new Intent(HomeScreen.this, ImageActivity.class);
+            startActivity(imageIntent);
+        });
 
     }
 

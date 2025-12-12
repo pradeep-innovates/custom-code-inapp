@@ -110,13 +110,14 @@ public class LoginActivity extends AppCompatActivity {
         if (!email.isEmpty()) profileUpdate.put("Email", email);
         if (!phone.isEmpty()) profileUpdate.put("Phone", phone);
         if (!gender.isEmpty()) profileUpdate.put("Gender", gender);
-        if (dob != null) profileUpdate.put("DOB", dob);
+//        if (dob != null) profileUpdate.put("DOB", dob);
 
         // Additional fields
         profileUpdate.put("MSG-email", true);
         profileUpdate.put("MSG-push", true);
         profileUpdate.put("MSG-sms", true);
         profileUpdate.put("MSG-whatsapp", true);
+        profileUpdate.put("Current_Date", new Date());
 
         // Add some sample stuff
 //        ArrayList<String> stuff = new ArrayList<>();

@@ -82,7 +82,9 @@ public class DetailListActivity extends AppCompatActivity {
             detailList.add(new DetailCardItem("Event Launch", "https://example.com/carousel", "Event_Launch"));
             detailList.add(new DetailCardItem("Mood Template", "https://example.com/carousel", "Mood_Template"));
             detailList.add(new DetailCardItem("Sample", "https://example.com/carousel", "Sample"));
-            detailList.add(new DetailCardItem("Sample", "https://example.com/carousel", "Sample"));
+            detailList.add(new DetailCardItem("Sample 1", "https://example.com/carousel", "Sample1"));
+            detailList.add(new DetailCardItem("Sample 2", "https://example.com/carousel", "Sample2"));
+            detailList.add(new DetailCardItem("Sample 3", "https://example.com/carousel", "Sample3"));
         } else if ("Push Templates".equals(category)) {
             detailList.add(new DetailCardItem("Basic Template", "https://example.com/rich", "push_basic"));
             detailList.add(new DetailCardItem("Auto Carousel Template", "https://example.com/custom", "push_carousel"));
@@ -94,6 +96,7 @@ public class DetailListActivity extends AppCompatActivity {
             detailList.add(new DetailCardItem("Timer Template in Seconds", "https://example.com/custom", "push_timer_seconds"));
             detailList.add(new DetailCardItem("Zero Bezel Template", "https://example.com/custom", "push_zero_bezel"));
             detailList.add(new DetailCardItem("Input Box Template", "https://example.com/custom", "push_input"));
+            detailList.add(new DetailCardItem("GIF Template", "https://example.com/carousel", "push_gif"));
             detailList.add(new DetailCardItem("Sample", "https://example.com/carousel", "Sample"));
         }
 

@@ -1,12 +1,14 @@
 package com.pradeep.androidintegration;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,6 +46,7 @@ import com.clevertap.android.sdk.InAppNotificationButtonListener;
 import com.clevertap.android.sdk.displayunits.DisplayUnitListener;
 import com.clevertap.android.sdk.displayunits.model.CleverTapDisplayUnit;
 import com.clevertap.android.sdk.displayunits.model.CleverTapDisplayUnitContent;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pradeep.androidintegration.spotlights.SpotlightHelper;
 
 import org.json.JSONObject;
@@ -57,10 +60,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class MainActivity extends BaseActivity implements CTInboxListener, DisplayUnitListener, InAppNotificationButtonListener {
 
     private static final String TAG = "CleverTap";
+    private static final int REQUEST_LOCATION_PERMISSION = 1001;
     private CleverTapAPI cleverTapDefaultInstance;
 
     private static final int REQUEST_NOTIFICATION_PERMISSION = 1001;
@@ -73,6 +78,9 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
     private RecyclerView recyclerView;
     private CardAdapter cardAdapter;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
+    @SuppressLint("WrongThread")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -84,6 +92,11 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        mFirebaseAnalytics.setUserProperty("ct_objectId", Objects.requireNonNull(CleverTapAPI.getDefaultInstance(this)).getCleverTapID());
 
 
         Log.d("CleverTap", "App is started");
@@ -116,9 +129,13 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
 //            cleverTapDefaultInstance.setOptOut(false);
             cleverTapDefaultInstance.enableDeviceNetworkInfoReporting(true);
 
-            // Custom Events
-            cleverTapDefaultInstance.pushEvent("native_bot");
-            cleverTapDefaultInstance.pushEvent("native_spotlight");
+
+
+            HashMap<String, Object> eventProps = new HashMap<>();
+            eventProps.put("date_time", new java.util.Date());
+            cleverTapDefaultInstance.pushEvent("custom_event", eventProps);
+
+//            cleverTapDefaultInstance.pushEvent("native_spotlight");
         }
 
 
@@ -137,6 +154,25 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
                         new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_NOTIFICATION_PERMISSION);
             }
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Check if the location permission is not granted
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // Request the location permissions
+                ActivityCompat.requestPermissions(this,
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                        REQUEST_LOCATION_PERMISSION);
+            }
+        }
+        Location location = cleverTapDefaultInstance.getLocation();
+        cleverTapDefaultInstance.setLocation(location);
+
+
+
+
 
         // Push Primer
 //        new Handler(Looper.getMainLooper()).postDelayed(() -> {
@@ -204,7 +240,7 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
                 "Custom HTML In-App Templates",
                 "See Documentation",
                 "https://www.youtube.com",
-                "https://www.youtube.com",
+                "app://p1",
                 DetailListActivity.class  // Pass the activity class to be opened on card click
         ));
 
@@ -404,8 +440,9 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
          */
         Log.d("CleverTap", "onNewIntent: called");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            Log.d("CleverTap", "onNewIntent 1: called");
             cleverTapDefaultInstance.pushNotificationClickedEvent(intent.getExtras());
-            NotificationUtils.dismissNotification(intent, getApplicationContext());
+//            NotificationUtils.dismissNotification(intent, getApplicationContext());
         }
     }
 
@@ -486,6 +523,14 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
         Log.d("CleverTap", "onDestroy: called");
 
     }
+
+    private boolean hasLocationPermission() {
+        return ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED;
+    }
+
     @Override
     public void inboxDidInitialize() {
         Log.d("CleverTap", "inboxDidInitialize: called");
@@ -668,7 +713,7 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
 
     public void onDisplayUnitsLoaded(ArrayList<CleverTapDisplayUnit> displayUnits) {
         Log.d("CleverTap", "Inside new onDisplayUnitsLoaded");
-        cleverTapDefaultInstance.pushEvent("Native Display is working");
+//        cleverTapDefaultInstance.pushEvent("Native Display is working");
 
         Activity activity = CTapp.getCurrentActivity(); //CTapp is Application Class
 

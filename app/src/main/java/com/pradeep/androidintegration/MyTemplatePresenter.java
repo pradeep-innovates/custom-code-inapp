@@ -115,6 +115,8 @@ public class MyTemplatePresenter implements TemplatePresenter  {
                 showBottomBanner(activity, context); // ECom PIP
             } else if ("ToolTip".equalsIgnoreCase(templateName)) {
                 showTopRightTooltip(activity, context); // ECom PIP
+            } else if ("ToolTip_2".equalsIgnoreCase(templateName)) {
+                showFirstTooltip(activity, context); // ECom PIP
             } else if ("Scratch_Card".equalsIgnoreCase(templateName)) {
                 showCustomBottomRightPopup(activity, context);
             } else if ("Event_Launch".equalsIgnoreCase(templateName)) {
@@ -1329,6 +1331,190 @@ public class MyTemplatePresenter implements TemplatePresenter  {
         context.setPresented();
     }
 
+    private void showFirstTooltip(Activity activity, CustomTemplateContext.TemplateContext context) {
+        String content1 = context.getString("title1");
+        Log.d("CleverTap", "showFirstTooltip: called");
+
+        FrameLayout rootLayout = activity.findViewById(android.R.id.content);
+
+        // Wrapper layout
+        FrameLayout wrapper = new FrameLayout(activity);
+        FrameLayout.LayoutParams wrapperParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                Gravity.TOP | Gravity.END
+        );
+        wrapperParams.setMargins(0, dpToPx(250), dpToPx(30), 0);
+        wrapper.setLayoutParams(wrapperParams);
+
+        // Vertical container for text + image
+        LinearLayout tooltipContent = new LinearLayout(activity);
+        tooltipContent.setOrientation(LinearLayout.VERTICAL);
+        tooltipContent.setGravity(Gravity.CENTER_HORIZONTAL);
+        FrameLayout.LayoutParams tooltipParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+        );
+        tooltipContent.setLayoutParams(tooltipParams);
+
+        // Content box (TextView)
+        TextView contentBox = new TextView(activity);
+        contentBox.setText(content1);
+        contentBox.setTextColor(Color.WHITE);
+        contentBox.setTextSize(14f);
+        contentBox.setPadding(dpToPx(12), dpToPx(6), dpToPx(12), dpToPx(2));
+        // Background for top (content box)
+        GradientDrawable topBg = new GradientDrawable();
+        topBg.setColor(Color.parseColor("#F6842B"));
+        topBg.setCornerRadii(new float[]{
+                dpToPx(8), dpToPx(8),   // top-left, top-right
+                dpToPx(8), dpToPx(8),   // top-right, top-right (extra safety)
+                0f, 0f,                 // bottom-left
+                0f, 0f                  // bottom-right
+        });
+        contentBox.setBackground(topBg);
+
+        LinearLayout.LayoutParams contentBoxParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        contentBoxParams.setMargins(0, dpToPx(12), 0, 0);
+        contentBox.setLayoutParams(contentBoxParams);
+
+        // Image container
+        FrameLayout imageContainer = new FrameLayout(activity);
+        LinearLayout.LayoutParams imageContainerParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                dpToPx(100)
+        );
+        imageContainerParams.setMargins(0, 0, 0, 0);
+        imageContainer.setLayoutParams(imageContainerParams);
+
+        // ImageView inside container
+        ImageView imageView = new ImageView(activity);
+        FrameLayout.LayoutParams imageParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+        );
+        imageView.setLayoutParams(imageParams);
+        imageView.setAdjustViewBounds(true);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        int radius = dpToPx(8);
+        int borderSize = dpToPx(2);
+        int borderColor = Color.parseColor("#F6842B");
+
+        RequestOptions requestOptions1 = new RequestOptions()
+                .transform(new BottomRoundedBorderTransformation(radius, borderSize, borderColor));
+
+        // Load image using Glide
+        Glide.with(activity)
+                .load("https://static.vecteezy.com/system/resources/thumbnails/011/432/528/small/enter-login-and-password-registration-page-on-screen-sign-in-to-your-account-creative-metaphor-login-page-mobile-app-with-user-page-flat-illustration-vector.jpg")
+                .apply(requestOptions1)
+                .into(imageView);
+
+        // Add imageView inside imageContainer
+        imageContainer.addView(imageView);
+
+        // Triangle view
+        View triangle = new View(activity);
+        int triangleWidth = dpToPx(23);
+        int triangleHeight = dpToPx(23);
+        FrameLayout.LayoutParams triangleParams = new FrameLayout.LayoutParams(triangleWidth, triangleHeight);
+        triangleParams.gravity = Gravity.TOP | Gravity.END;
+        triangleParams.setMargins(0, 10, 50, 0);
+        triangle.setLayoutParams(triangleParams);
+        triangle.setRotation(45f);
+        triangle.setBackgroundColor(Color.parseColor("#F6842B"));
+
+        // Add views in correct order
+        tooltipContent.addView(contentBox);
+        tooltipContent.addView(imageContainer);
+        wrapper.addView(triangle);
+        wrapper.addView(tooltipContent);
+        rootLayout.addView(wrapper);
+
+        // Auto-dismiss
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            rootLayout.removeView(wrapper);
+            context.setDismissed();
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                showSecondTooltip(activity, context);
+            }, 500);
+        }, 3000);
+
+        context.setPresented();
+    }
+
+    private void showSecondTooltip(Activity activity, CustomTemplateContext.TemplateContext context) {
+        String content2 = context.getString("title2");
+//        String content2 = "Complete the SignUp Process!";
+        Log.d("CleverTap", "showSecondTooltip: called");
+
+        FrameLayout rootLayout = activity.findViewById(android.R.id.content);
+
+        // Wrapper layout
+        FrameLayout wrapper = new FrameLayout(activity);
+        FrameLayout.LayoutParams wrapperParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                Gravity.TOP | Gravity.START
+        );
+        wrapperParams.setMargins(dpToPx(128), dpToPx(438), 0, 0); // shift from left and top
+        wrapper.setLayoutParams(wrapperParams);
+
+        // Frame to hold text + triangle overlay
+        FrameLayout tooltipBox = new FrameLayout(activity);
+        FrameLayout.LayoutParams tooltipParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+        );
+        tooltipBox.setLayoutParams(tooltipParams);
+
+        // Content box (TextView)
+        TextView contentBox = new TextView(activity);
+        contentBox.setText(content2);
+        contentBox.setTextColor(Color.WHITE);
+        contentBox.setTextSize(14f);
+        contentBox.setPadding(dpToPx(12), dpToPx(8), dpToPx(12), dpToPx(8));
+        GradientDrawable bg = new GradientDrawable();
+        bg.setColor(Color.parseColor("#F6842B"));
+        bg.setCornerRadius(dpToPx(8));
+        contentBox.setBackground(bg);
+        FrameLayout.LayoutParams contentBoxParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+        );
+        contentBoxParams.setMargins(0, dpToPx(12), 0, 0); // adds top spacing between tooltipBox top and text
+        contentBox.setLayoutParams(contentBoxParams);
+
+        // Triangle view
+        View triangle = new View(activity);
+        int triangleWidth = dpToPx(23);
+        int triangleHeight = dpToPx(23);
+        FrameLayout.LayoutParams triangleParams = new FrameLayout.LayoutParams(triangleWidth, triangleHeight);
+        triangleParams.gravity = Gravity.TOP | Gravity.START;
+        triangleParams.setMargins(50, 10, 0, 0); // mirror the margins for left side
+        triangle.setLayoutParams(triangleParams);
+        triangle.setRotation(45f);
+        triangle.setBackgroundColor(Color.parseColor("#F6842B"));
+
+        // Add views
+        tooltipBox.addView(triangle);
+        tooltipBox.addView(contentBox);
+        wrapper.addView(tooltipBox);
+        rootLayout.addView(wrapper);
+
+        context.setPresented();
+
+
+        // Auto-dismiss
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            rootLayout.removeView(wrapper);
+            context.setDismissed();
+        }, 3000);
+
+    }
 
 
     private void showTopRightTooltip(Activity activity, CustomTemplateContext.TemplateContext context) {
@@ -1834,6 +2020,16 @@ public class MyTemplatePresenter implements TemplatePresenter  {
 
         continueWatchingButton.setOnClickListener(v -> {
             context.triggerActionArgument("buttonClick", activity);
+            String clickUrl = "app://p1";
+
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(clickUrl));
+
+            // Check if there's an app to handle the intent
+            if (intent.resolveActivity(activity.getPackageManager()) != null) {
+                activity.startActivity(intent);
+            }
+
             player.release();
             dialog.dismiss();
             context.setDismissed();

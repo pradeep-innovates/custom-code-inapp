@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -47,21 +48,21 @@ public class CTapp extends Application implements CTPushNotificationListener, an
 //        boolean status = fetchLifecycleStatusBlocking();  // Blocking API call
 //        Log.d(TAG, "onCreate: status is " + status);
 //
-        if (REGISTER_CLEVERTAP_LIFECYCLE) {
-            CleverTapAPI.changeCredentials(
-                    "TEST-4W5-9RR-646Z",
-                    "TEST-22c-504"
-            );
-
-            CleverTapAPI cleverTapDefaultInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
-            if (cleverTapDefaultInstance != null) {
-                cleverTapDefaultInstance.pushEvent("SDK_Initialized_From_Application_Class");
-            }
-
-            ActivityLifecycleCallback.register(this);
-            Log.d(TAG, "Activity Lifecycle Initiated via Flag");
-        }
-//        ActivityLifecycleCallback.register(this);
+//        if (REGISTER_CLEVERTAP_LIFECYCLE) {
+//            CleverTapAPI.changeCredentials(
+//                    "TEST-4W5-9RR-646Z",
+//                    "TEST-22c-504"
+//            );
+//
+//            CleverTapAPI cleverTapDefaultInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
+//            if (cleverTapDefaultInstance != null) {
+//                cleverTapDefaultInstance.pushEvent("SDK_Initialized_From_Application_Class");
+//            }
+//
+//            ActivityLifecycleCallback.register(this);
+//            Log.d(TAG, "Activity Lifecycle Initiated via Flag");
+//        }
+        ActivityLifecycleCallback.register(this);
         super.onCreate();
         registerActivityLifecycleCallbacks(this);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -115,6 +116,12 @@ public class CTapp extends Application implements CTPushNotificationListener, an
                                 .stringArgument("content2", "")
                                 .build(),
                         new CustomTemplate.TemplateBuilder()
+                                .name("ToolTip_2")
+                                .presenter(new MyTemplatePresenter())
+                                .stringArgument("title1", "")
+                                .stringArgument("title2", "")
+                                .build(),
+                        new CustomTemplate.TemplateBuilder()
                                 .name("Bottom_Banner")
                                 .presenter(new MyTemplatePresenter())
                                 .stringArgument("content", "")
@@ -151,34 +158,41 @@ public class CTapp extends Application implements CTPushNotificationListener, an
                                 .stringArgument("BgColor","")
                                 .actionArgument("dotClick")
                                 .build(),
+//                        new CustomTemplate.TemplateBuilder()
+//                                .name("Mood_Template")
+//                                .presenter(new MyTemplatePresenter())
+//                                .stringArgument("Header", "")
+//                                .stringArgument("mood1_Text", "")
+//                                .stringArgument("mood1_Image", "")
+//                                .stringArgument("mood2_Text", "")
+//                                .stringArgument("mood2_Image", "")
+//                                .stringArgument("mood3_Text", "")
+//                                .stringArgument("mood3_Image", "")
+//                                .intArgument("delayInSeconds", 3)
+//                                .actionArgument("mood1_Link")
+//                                .actionArgument("mood2_Link")
+//                                .actionArgument("mood3_Link")
+//                                .build(),
                         new CustomTemplate.TemplateBuilder()
-                                .name("Mood_Template")
+                                .name("test_template")
                                 .presenter(new MyTemplatePresenter())
-                                .stringArgument("Header", "")
-                                .stringArgument("mood1_Text", "")
-                                .stringArgument("mood1_Image", "")
-                                .stringArgument("mood2_Text", "")
-                                .stringArgument("mood2_Image", "")
-                                .stringArgument("mood3_Text", "")
-                                .stringArgument("mood3_Image", "")
-                                .intArgument("delayInSeconds", 3)
-                                .actionArgument("mood1_Link")
-                                .actionArgument("mood2_Link")
-                                .actionArgument("mood3_Link")
+                                .stringArgument("icon1","")
+                                .stringArgument("icon2", "")
+                                .actionArgument("action")
                                 .build()
                 )
 
         );
-
-
-//        CleverTapInstanceConfig clevertapAdditionalInstanceConfig = CleverTapInstanceConfig.createInstance(
-//                getApplicationContext(),
-//                "TEST-W56-ZKK-6K7Z",
-//                "TEST-331-650"
-//        );
-
-//        clevertapAdditionalInstanceConfig.setEncryptionLevel(CryptHandler.EncryptionLevel.MEDIUM)
-
+//
+//
+////        CleverTapInstanceConfig clevertapAdditionalInstanceConfig = CleverTapInstanceConfig.createInstance(
+////                getApplicationContext(),
+////                "TEST-W56-ZKK-6K7Z",
+////                "TEST-331-650"
+////        );
+//
+////        clevertapAdditionalInstanceConfig.setEncryptionLevel(CryptHandler.EncryptionLevel.MEDIUM)
+//
         cleverTapDefaultInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
 
         if (cleverTapDefaultInstance != null) {
@@ -201,8 +215,14 @@ public class CTapp extends Application implements CTPushNotificationListener, an
         CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.VERBOSE);     //Set Log level to VERBOSE
         Log.d("firbase1", "inside app: ");
         // Creating a Notification Channel With Sound Support        cleverTapDefaultInstance.setCTPushNotificationListener(this);
-        CleverTapAPI.createNotificationChannel(getApplicationContext(), "got", "Game of Thrones", "Game Of Thrones", NotificationManager.IMPORTANCE_MAX, true);
-
+        CleverTapAPI.createNotificationChannel(getApplicationContext(), "channel3", "channel3", "channel3", NotificationManager.IMPORTANCE_MAX, true);
+        CleverTapAPI.createNotificationChannel(getApplicationContext(), "channel4", "channel4", "channel4", NotificationManager.IMPORTANCE_LOW, true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CleverTapAPI.createNotificationChannelGroup(getApplicationContext(),"123","MyGroup1");
+            CleverTapAPI.createNotificationChannel(getApplicationContext(),"channel1","channel1","channel1",NotificationManager.IMPORTANCE_MAX,"123",true);
+            CleverTapAPI.createNotificationChannelGroup(getApplicationContext(),"456","MyGroup2");
+            CleverTapAPI.createNotificationChannel(getApplicationContext(),"channel2","channel2","channel2",NotificationManager.IMPORTANCE_MAX,"456",true);
+        }
         CleverTapAPI.setNotificationHandler((NotificationHandler) new PushTemplateNotificationHandler());
     }
 
@@ -276,7 +296,18 @@ public class CTapp extends Application implements CTPushNotificationListener, an
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+        Log.d("CleverTap", "onActivityCreated: Worked");
 
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//            Intent intent = activity.getIntent();
+//
+//            if (intent != null && intent.getExtras() != null) {
+//                Log.d("CleverTap", "Checking if activity was launched from a notification...");
+//                NotificationUtils.dismissNotification(intent, getApplicationContext());
+//            } else {
+//                Log.d("CleverTap", "No notification data found in intent.");
+//            }
+//        }
     }
 
     @Override
