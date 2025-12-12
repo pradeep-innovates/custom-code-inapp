@@ -23,7 +23,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -209,7 +208,7 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
                 .into(notificationIcon);
 
         profileIcon.setOnClickListener(view -> {
-            Toast.makeText(this, "Profile Icon clicked!", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Profile Icon clicked!", Toast.LENGTH_SHORT).show();
             Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(loginIntent);
         });
@@ -244,21 +243,21 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
         ));
 
         cardItemList.add(new CardItem(
-                "SpotLight",
-                "Spotlight highlights parts of the screen to guide users.",
-                "See Documentation",
-                "https://github.com",
-                "https://docs.clevertap.com/docs/native-display",
-                SpotlightsActivity.class  // Pass the activity class to be opened on card click
-        ));
-
-        cardItemList.add(new CardItem(
                 "Push Templates",
                 "Different Templates to show Push Notification",
                 "See Documentation",
                 "https://www.wikipedia.org",
                 "https://developer.clevertap.com/docs/push-templates-android",
                 DetailListActivity.class  // Pass the activity class to be opened on card click
+        ));
+
+        cardItemList.add(new CardItem(
+                "Custom Events",
+                "Events you define and track with our SDK or API.",
+                "See Documentation",
+                "https://www.openai.com",
+                "https://developer.clevertap.com/docs/events#custom-events",
+                CustomEvents.class  // Pass the activity class to be opened on card click
         ));
 
         cardItemList.add(new CardItem(
@@ -271,15 +270,13 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
         ));
 
         cardItemList.add(new CardItem(
-                "Custom Events",
-                "Events you define and track with our SDK or API.",
+                "SpotLight",
+                "Spotlight highlights parts of the screen to guide users.",
                 "See Documentation",
-                "https://www.openai.com",
-                "https://developer.clevertap.com/docs/events#custom-events",
-                CustomEvents.class  // Pass the activity class to be opened on card click
+                "https://github.com",
+                "https://docs.clevertap.com/docs/native-display",
+                SpotlightsActivity.class  // Pass the activity class to be opened on card click
         ));
-
-
 
         cardItemList.add(new CardItem(
                 "In-App",
@@ -313,24 +310,6 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
         // Run the animation
         recyclerView.scheduleLayoutAnimation();
 
-
-//        Get CleverTap ID
-//        Button getCleverTapID = findViewById(R.id.getCleverTapID);
-//        getCleverTapID.setOnClickListener(view -> {
-//            String cleverTapID = cleverTapDefaultInstance.getCleverTapID();
-//
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//            builder.setTitle("CleverTap ID");
-//            builder.setMessage(cleverTapID);
-//            builder.setPositiveButton("Copy", (dialog, which) -> {
-//                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-//                ClipData clip = ClipData.newPlainText("CleverTap ID", cleverTapID);
-//                clipboard.setPrimaryClip(clip);
-//                Toast.makeText(this, "Copied to clipboard", Toast.LENGTH_SHORT).show();
-//            });
-//            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
-//            builder.show();
-//        });
 
         setupCustomBottomBar("home"); // or "search", "profile" accordingly
 
@@ -425,9 +404,8 @@ public class MainActivity extends BaseActivity implements CTInboxListener, Displ
     public void inboxDidInitialize() {
         Log.d("CleverTap", "inboxDidInitialize: called");
         notificationIcon.setOnClickListener(view -> {
-            Toast.makeText(this, "Notification Icon clicked!", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Notification Icon clicked!", Toast.LENGTH_SHORT).show();
             cleverTapDefaultInstance.showAppInbox();//Opens Activity with default style configs
-
         });
     }
 

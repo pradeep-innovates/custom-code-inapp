@@ -1,9 +1,16 @@
 package com.pradeep.androidintegration;
 
-import android.content.Intent;
+import android.app.DatePickerDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +23,7 @@ import com.clevertap.android.sdk.CleverTapAPI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -38,10 +46,22 @@ public class LoginActivity extends AppCompatActivity {
         cleverTapDefaultInstance = CleverTapAPI.getDefaultInstance(this);
 
         // HomeScreen
-        Button homescreen = findViewById(R.id.homescreen);
-        homescreen.setOnClickListener(view -> {
-            Intent homeIntent = new Intent(LoginActivity.this, HomeScreen.class);
-            startActivity(homeIntent);
+//        Button homescreen = findViewById(R.id.homescreen);
+//        homescreen.setOnClickListener(view -> {
+//            Intent homeIntent = new Intent(LoginActivity.this, HomeScreen.class);
+//            startActivity(homeIntent);
+//        });
+
+        // Get CleverTap ID
+        Button getCleverTapID = findViewById(R.id.getCleverTapID);
+        getCleverTapID.setOnClickListener(view -> {
+            String cleverTapID = cleverTapDefaultInstance.getCleverTapID();
+
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("CleverTap ID", cleverTapID);
+            clipboard.setPrimaryClip(clip);
+
+//            Toast.makeText(this, "CleverTap ID copied", Toast.LENGTH_SHORT).show();
         });
 
         // Initialize EditText fields
@@ -57,6 +77,21 @@ public class LoginActivity extends AppCompatActivity {
         Button onUserLogin = findViewById(R.id.onUserLogin);
         Button pushProfile = findViewById(R.id.pushProfile);
 
+        // Make the Date field non-editable but clickable and open DatePicker
+        // This ensures keyboard doesn't appear while taps are handled
+        etDate.setInputType(InputType.TYPE_NULL);   // prevents keyboard
+        etDate.setFocusable(false);
+        etDate.setClickable(true);
+        etDate.setCursorVisible(false);
+        etDate.setLongClickable(false);
+
+        etDate.setOnClickListener(v -> showDatePicker(etDate));
+        etDate.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                showDatePicker(etDate);
+            }
+        });
+
         // Set click listener for onUserLogin button
         onUserLogin.setOnClickListener(view -> handleProfileUpdate("Login Successful", true,
                 etName, etIdentity, etEmail, etPhone, etGender, etDate, etKey, etValue));
@@ -67,6 +102,43 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+    }
+
+    // helper: show DatePicker and set formatted date on target EditText
+    private void showDatePicker(final EditText target) {
+        final Calendar cal = Calendar.getInstance();
+
+        // If there's already a valid date in the field, use it as default
+        String existing = target.getText().toString().trim();
+        if (!existing.isEmpty()) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                Date parsed = sdf.parse(existing);
+                if (parsed != null) {
+                    cal.setTime(parsed);
+                }
+            } catch (ParseException ignored) {
+            }
+        }
+
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dpd = new DatePickerDialog(this, (DatePicker view, int y, int m, int d) -> {
+            Calendar sel = Calendar.getInstance();
+            sel.set(y, m, d);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            target.setText(sdf.format(sel.getTime()));
+        }, year, month, day);
+
+        // Optional: prevent selecting future dates (uncomment if desired)
+        // dpd.getDatePicker().setMaxDate(System.currentTimeMillis());
+
+        dpd.show();
+
+        dpd.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+        dpd.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
     }
 
     // Method to handle profile update or login
@@ -149,8 +221,10 @@ public class LoginActivity extends AppCompatActivity {
         // Perform the CleverTap action (either login or profile push)
         if (isLogin) {
             cleverTapDefaultInstance.onUserLogin(profileUpdate);
+            Toast.makeText(this, "onUserLogin called", Toast.LENGTH_SHORT).show();
         } else {
             cleverTapDefaultInstance.pushProfile(profileUpdate);
+            Toast.makeText(this, "pushProfile called", Toast.LENGTH_SHORT).show();
         }
         cleverTapDefaultInstance.pushEvent(eventName, profileUpdate);
     }

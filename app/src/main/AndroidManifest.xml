@@ -23,10 +23,7 @@
         <meta-data
             android:name="CLEVERTAP_NOTIFICATION_ICON"
             android:value="testicon" />
-        
-        <activity
-            android:name=".ImageActivity"
-            android:exported="false" />
+
         <activity
             android:name=".SpotlightsActivity"
             android:exported="false" />

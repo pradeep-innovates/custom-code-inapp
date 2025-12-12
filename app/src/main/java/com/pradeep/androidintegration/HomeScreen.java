@@ -65,9 +65,7 @@ public class HomeScreen extends BaseActivity implements DisplayUnitListener {
         Button ImageActivity = findViewById(R.id.button4);
 
         ImageActivity.setOnClickListener(view -> {
-            Toast.makeText(this, "Profile Icon clicked!", Toast.LENGTH_SHORT).show();
-            Intent imageIntent = new Intent(HomeScreen.this, ImageActivity.class);
-            startActivity(imageIntent);
+            Toast.makeText(this, "Image Button clicked!", Toast.LENGTH_SHORT).show();
         });
 
     }
